@@ -8,7 +8,6 @@ Per obtenir la API Key, cal accedir a la pàgina oficial de AEMET. Seguidament, 
 
 ![img1](./img/ej1/img_ej1_1.png)
 
-
 ![img2](./img/ej1/img_ej1_2.png)
 
 ![img3](./img/ej1/img_ej1_3.png)
