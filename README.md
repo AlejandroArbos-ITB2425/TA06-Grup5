@@ -16,6 +16,7 @@ Para obtener la API Key, es necesario acceder a la página oficial de AEMET. Seg
 ---
 
 Una vez tengamos todos el archivo descargado (precip.MIROC5.RCP60.2006-2100.SDSM_REJ.tar.gz), deberemos de descomprimirlo para obtener la carpeta con todos los archivos .dat
+
 ![img5](./img/ej1/img_ej1_5.png)
 
 ## Exercici 2 - Organizar y procesar los datos
