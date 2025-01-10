@@ -7,9 +7,10 @@
 Per obtenir la API Key, cal accedir a la pàgina oficial de AEMET. Seguidament, situar-se a l'apartat de "DADES OBERTES" -> "AEMET OPENDATA", baixar fins al final de la pàgina i entrar a l'enllaç de "AEMET OPENDATA". Un cop dins, triar l'opció de d'obtenció d'API Key "Solicitar". Dins del formulari, introduir un Email per obtenir la clau mitjançant el correu electrònic.
 
 ![img1](./img/ej1/img_ej1_1.png)
-
+---
 ![img2](./img/ej1/img_ej1_2.png)
-
+---
 ![img3](./img/ej1/img_ej1_3.png)
-
+---
 ![img4](./img/ej1/img_ej1_4.png)
+---
