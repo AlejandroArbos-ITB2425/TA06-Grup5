@@ -1,10 +1,10 @@
-## Exercici 1 - Obtenció de Dades
+## Exercici 1 - Obtención de Datos
 
->Anar a la font de dades fiable de meteorologia,  la AEMET. Obtenir els fitxers de dades precip.MIROC5.RCP 60.2006-2100.SDSM_REJ. Abans caldrà sol·licitar una API-Key a la AEMET per a poder accedir a la descàrrega de les dades.
+>Ir a la fuente de datos fiable de meteorología, la AEMET. Obtener los archivos de datos precip.MIROC5.RCP 60.2006-2100.SDSM_REJ. Antes será necesario solicitar una API-Key a la AEMET para poder acceder a la descarga de los datos.
 
-### Obtenció del API Key
+### Obtención del API Key
 
-Per obtenir la API Key, cal accedir a la pàgina oficial de AEMET. Seguidament, situar-se a l'apartat de "DADES OBERTES" -> "AEMET OPENDATA", baixar fins al final de la pàgina i entrar a l'enllaç de "AEMET OPENDATA". Un cop dins, triar l'opció de d'obtenció d'API Key "Solicitar". Dins del formulari, introduir un Email per obtenir la clau mitjançant el correu electrònic.
+Para obtener la API Key, es necesario acceder a la página oficial de AEMET. Seguidamente, situarse en el apartado de "DATOS ABIERTOS" -> "AEMET OPENDATA", bajar hasta el final de la página y entrar en el enlace de "AEMET OPENDATA". Una vez dentro, elegir la opción de de obtención de API Key "Solicitar". Dentro del formulario, introducir un Email para obtener la clave mediante el correo electrónico.
 
 ![img1](./img/ej1/img_ej1_1.png)
 ---
