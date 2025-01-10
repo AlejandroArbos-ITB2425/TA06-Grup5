@@ -44,7 +44,7 @@ Principalmente, se puede ver que las cabeceras están separadas por tabulación 
 
 Los datos en las líneas dentro de los archivos están delimitados por espacios. Por ejemplo:
 
-![img6](./img/ej1/img_ej2_1.png)
+![img6](./img/ej2/img_ej2_1.png)
 
   - Una etiqueta del punto de observación (P1) es la estación. También es conocido como "Punto de Observación"
   - Año. (2006-2100).
