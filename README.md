@@ -25,28 +25,28 @@ Una vez tengamos todos el archivo descargado (precip.MIROC5.RCP60.2006-2100.SDSM
 Principalmente, se puede ver que las cabeceras están separadas por tabulación (`\t`), dentro de ésta hay diferentes campos, los cuales son:
 
 1. **`precip`**
-- Indica que los datos están relacionados con precipitaciones.
+  - Indica que los datos están relacionados con precipitaciones.
 
 2. **`MIROC5`**
-- Hace referencia al modelo climático utilizado.
+  - Hace referencia al modelo climático utilizado.
 
 3. **`RCP60`**
-- Representa un escenario de emisiones de gases de efecto invernadero.
+  - Representa un escenario de emisiones de gases de efecto invernadero.
 
 4. **`REGRESION`**
-- Indica que los datos han sido procesados mediante un modelo de regresión.
+  - Indica que los datos han sido procesados mediante un modelo de regresión.
 
 5. **`decimas`**
-- Especifica la unidad de medida para los valores de los datos.
+  - Especifica la unidad de medida para los valores de los datos.
 
 6. **`1`**
-- Podría ser un identificador o una versión del conjunto de datos.
+  - Podría ser un identificador o una versión del conjunto de datos.
 
 Los datos en las líneas dentro de los archivos están delimitados por espacios. Por ejemplo:
 
-![img6](./img/ej1/img_ej1_5.png)
+![img6](./img/ej1/img_ej2_1.png)
 
-- Una etiqueta del punto de observación (P1) es la estación. También es conocido como "Punto de Observación"
-- Año. (2006-2100).
-- Mes (1-12).
-- Fechas diarias, valores de precipitaciones, seguidas por valores de control como -999 que no existen datos válidos o disponibles.
+  - Una etiqueta del punto de observación (P1) es la estación. También es conocido como "Punto de Observación"
+  - Año. (2006-2100).
+  - Mes (1-12).
+  - Fechas diarias, valores de precipitaciones, seguidas por valores de control como -999 que no existen datos válidos o disponibles.
