@@ -4,14 +4,19 @@ import pandas as pd
 def check_file_format(directory):
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
     formats = []
+    delimiters = [',', ';', '\t', '|']
 
     for file in files:
         file_path = os.path.join(directory, file)
-        try:
-            df = pd.read_csv(file_path, nrows=5)
-            formats.append((file, df.columns.tolist(), df.dtypes.tolist()))
-        except Exception as e:
-            print(f"Error reading {file}: {e}")
+        for delimiter in delimiters:
+            try:
+                df = pd.read_csv(file_path, delimiter=delimiter, nrows=5)
+                formats.append((file, df.columns.tolist(), df.dtypes.tolist()))
+                break
+            except Exception as e:
+                continue
+        else:
+            print(f"Error reading {file}: Could not determine delimiter.")
 
     if not formats:
         print("No files found or all files failed to read.")
