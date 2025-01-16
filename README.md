@@ -2,7 +2,7 @@
 
 >Ir a la fuente de datos fiable de meteorología, la AEMET. Obtener los archivos de datos precip.MIROC5.RCP 60.2006-2100.SDSM_REJ. Antes será necesario solicitar una API-Key a la AEMET para poder acceder a la descarga de los datos.
 
-### Obtención del API Key
+### Obtención de la API Key
 
 Para obtener la API Key, es necesario acceder a la página oficial de AEMET. Seguidamente, situarse en el apartado de "DATOS ABIERTOS" -> "AEMET OPENDATA", bajar hasta el final de la página y entrar en el enlace de "AEMET OPENDATA". Una vez dentro, elegir la opción de de obtención de API Key "Solicitar". Dentro del formulario, introducir un Email para obtener la clave mediante el correo electrónico.
 
@@ -52,3 +52,6 @@ Los datos en las líneas dentro de los archivos están delimitados por espacios.
   - Año. (2006-2100).
   - Mes (1-12).
   - Fechas diarias, valores de precipitaciones, seguidas por valores de control como -999 que no existen datos válidos o disponibles.
+
+> PASO 2: Verificar que todos los archivos tienen el mismo formato. Se puede hacer un script de validación básica, que lea las primeras filas de cada archivo y determinaar el número de columnas y delimitadores.
+
