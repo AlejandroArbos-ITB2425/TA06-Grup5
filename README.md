@@ -52,3 +52,6 @@ Los datos en las líneas dentro de los archivos están delimitados por espacios.
   - Año. (2006-2100).
   - Mes (1-12).
   - Fechas diarias, valores de precipitaciones, seguidas por valores de control como -999 que no existen datos válidos o disponibles.
+
+> PASO 2: Verificar que todos los archivos tienen el mismo formato. Se puede hacer un script de validación básica, que lea las primeras filas de cada archivo y determinaar el número de columnas y delimitadores.
+
