@@ -1,4 +1,4 @@
-## Exercici 1 - Obtención de Datos
+## Ejercicio 1 - Obtención de Datos
 
 >Ir a la fuente de datos fiable de meteorología, la AEMET. Obtener los archivos de datos precip.MIROC5.RCP 60.2006-2100.SDSM_REJ. Antes será necesario solicitar una API-Key a la AEMET para poder acceder a la descarga de los datos.
 
@@ -20,7 +20,7 @@ Una vez tengamos todos el archivo descargado (precip.MIROC5.RCP60.2006-2100.SDSM
 
 ---
 
-## Exercici 2 - Organizar y procesar los datos
+## Ejercicio 2 - Organizar y procesar los datos
 
 > PASO 1: Revisar las cabeceras, separación entre datos, comentarios. Saber cómo están delimitados los datos. Qué columnas hay y qué tipos de datos.
 
@@ -63,3 +63,16 @@ Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valor
 
 > PASO 4: Documenta todo el proceso por si tienes que repetirlo alguna vez. Indica qué decisiones has tomado, qué has hecho con los valores nulos y cómo has solucionado inconsistencias.
 
+
+
+
+
+
+
+
+
+## Ejercicio 3 - Obtención de Datos
+
+> Mostrar resúmenes estadísticos por pantalla
+> Mostrar gráficos estadísticos por pantalla
+> Exportar los resúmenes estadísticos a archivos CSV
