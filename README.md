@@ -55,3 +55,11 @@ Los datos en las líneas dentro de los archivos están delimitados por espacios.
 
 > PASO 2: Verificar que todos los archivos tienen el mismo formato. Se puede hacer un script de validación básica, que lea las primeras filas de cada archivo y determinaar el número de columnas y delimitadores.
 
+
+> PASO 3: Asegurar que los datos no contengan errores, valores que falten o inconsistencias:
+Lectura: Utilizar pandas para gestionar los archivos y gestionar errores de lectura.
+Verifica la consistencia de las columnas: Asegurar que los datos en cada columna tienen el tipo esperado (numérico, fecha, etc.).
+Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valores atípicos.
+
+> PASO 4: Documenta todo el proceso por si tienes que repetirlo alguna vez. Indica qué decisiones has tomado, qué has hecho con los valores nulos y cómo has solucionado inconsistencias.
+
