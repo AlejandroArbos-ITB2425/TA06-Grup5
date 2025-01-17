@@ -45,5 +45,10 @@ def check_files_in_directory(directory_path):
 
 
 # Ruta del directorio donde están los archivos
-directory_path = "/home/aleix.parise.7e8/Baixades/ficheroclima_bakup/"
+directory_path = ("/.precip.MIROC5.RCP60.2006-2100.SDSM_REJ          "
+                  ""
+                  ""
+                  ""
+                  ""
+                  "")
 check_files_in_directory(directory_path)
