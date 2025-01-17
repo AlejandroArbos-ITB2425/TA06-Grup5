@@ -20,10 +20,17 @@ def count_values_in_file(file_path):
     return count_negative_999, count_other_numbers
 
 
+def calculate_percentage(part, total):
+    """
+    Calcula el porcentaje de una parte respecto al total.
+    """
+    return (part / total * 100) if total > 0 else 0
+
+
 def count_values_in_directory(directory_path):
     """
     Recorre todos los archivos en la ruta especificada y cuenta las ocurrencias
-    de '-999' y de otros números.
+    de '-999' y de otros números. Calcula el porcentaje de '-999'.
     """
     total_negative_999 = 0
     total_other_numbers = 0
@@ -41,10 +48,17 @@ def count_values_in_directory(directory_path):
                 print(f"Ocurrencias de -999 en {file_name}: {file_negative_999}")
                 print(f"Ocurrencias de otros números en {file_name}: {file_other_numbers}")
 
+    total_values = total_negative_999 + total_other_numbers
+    percentage_negative_999 = calculate_percentage(total_negative_999, total_values)
+
     print(f"\nRevisión completada.")
     print(f"Total de archivos procesados: {file_count}")
     print(f"Total de ocurrencias de -999: {total_negative_999}")
     print(f"Total de ocurrencias de otros números: {total_other_numbers}")
+    print(f"Total de valores: {total_values}")
+    print(f"Porcentaje de -999 respecto al total: {percentage_negative_999:.2f}%")
+
+    return percentage_negative_999
 
 
 # Ruta del directorio donde están los archivos
