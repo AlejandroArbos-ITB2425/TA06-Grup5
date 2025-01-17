@@ -1,47 +1,49 @@
 import os
+from datetime import datetime
+
+
+def check_file_format(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            # Leer solo la primera línea
+            first_line = file.readline().strip()
+
+        # Verificar la cabecera (primera línea)
+        header = first_line.split("\t")
+        if len(header) != 6:
+            return False, f"Error en la cabecera: {file_path}"
+
+        return True, None
+    except Exception as e:
+        return False, f"Error al leer el archivo {file_path}: {e}"
+
+
+def log_incidences(incident_message):
+    # Obtener la fecha y hora actuales
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Formatear el mensaje de log con la fecha y hora
+    log_message = f"{current_time} - {incident_message}"
+
+    # Escribir el mensaje en el archivo log
+    with open("incidencias.log", "a") as log_file:
+        log_file.write(log_message + "\n")
+
+
+def check_files_in_directory(directory_path):
+    files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+    for file_name in files:
+        file_path = os.path.join(directory_path, file_name)
+        valid, error = check_file_format(file_path)
+        if not valid:
+            print(f"Archivo con formato incorrecto: {file_name}")
+            print(f"Motivo: {error}")
+            log_incidences(f"Archivo: {file_name} - {error}")
+        else:
+            print(f"Archivo válido: {file_name}")
+
+    print("Revisión completada. Las incidencias se han registrado en incidencias.log.")
+
 
 # Ruta del directorio donde están los archivos
-directorio = './precip.MIROC5.RCP60.2006-2100.SDSM_REJ'
-
-
-# Función para contar columnas y delimitadores en una línea
-def obtener_columnas_y_delimitador(linea):
-    # Intenta determinar el delimitador (espacio o tabulación)
-    if '\t' in linea:
-        delimitador = '\t'  # tabulador
-    else:
-        delimitador = ' '  # espacio
-    # Divide la línea por el delimitador y contar las columnas
-    columnas = linea.strip().split(delimitador)
-    return len(columnas), delimitador
-
-
-# Lista para almacenar los resultados de validación
-resultados = []
-
-# Recorremos cada archivo en el directorio
-for archivo in os.listdir(directorio):
-    if archivo.endswith('.dat'):
-        ruta_archivo = os.path.join(directorio, archivo)
-
-        with open(ruta_archivo, 'r') as f:
-            # Leer las primeras líneas (por ejemplo, las primeras 3)
-            lineas = [f.readline().strip() for _ in range(3)]  # Leer las primeras 3 líneas
-
-            # Obtener el número de columnas y delimitador de la primera línea
-            num_columnas, delimitador = obtener_columnas_y_delimitador(lineas[0])
-
-            # Comprobar si las otras líneas tienen el mismo número de columnas
-            for linea in lineas[1:]:
-                columnas, _ = obtener_columnas_y_delimitador(linea)
-                if columnas != num_columnas:
-                    resultados.append(f"Error en el archivo {archivo}: columnas inconsistentes en la línea.")
-                    break
-            else:
-                # Si no hay errores, guardar el formato detectado
-                resultados.append(f"Archivo {archivo} tiene {num_columnas} columnas con delimitador '{delimitador}'.")
-
-# Imprimir los resultados de la validación
-for resultado in resultados:
-    print(resultado)
-
+directory_path = "/home/aleix.parise.7e8/Baixades/ficheroclima_bakup/"
+check_files_in_directory(directory_path)
