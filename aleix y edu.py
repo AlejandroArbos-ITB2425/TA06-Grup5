@@ -1,49 +1,52 @@
 import os
-from datetime import datetime
 
-
-def check_file_format(file_path):
+def count_values_in_file(file_path):
+    """
+    Cuenta las ocurrencias de '-999' y de otros números en un archivo.
+    """
+    count_negative_999 = 0
+    count_other_numbers = 0
     try:
         with open(file_path, 'r') as file:
-            # Leer solo la primera línea
-            first_line = file.readline().strip()
-
-        # Verificar la cabecera (primera línea)
-        header = first_line.split("\t")
-        if len(header) != 6:
-            return False, f"Error en la cabecera: {file_path}"
-
-        return True, None
+            for line in file:
+                # Dividir en valores por espacios o tabulaciones
+                values = line.split()
+                # Contar las ocurrencias de -999
+                count_negative_999 += values.count("-999")
+                # Contar todos los demás números
+                count_other_numbers += sum(1 for value in values if value != "-999" and value.replace('.', '', 1).lstrip('-').isdigit())
     except Exception as e:
-        return False, f"Error al leer el archivo {file_path}: {e}"
+        print(f"Error al procesar {file_path}: {e}")
+    return count_negative_999, count_other_numbers
 
 
-def log_incidences(incident_message):
-    # Obtener la fecha y hora actuales
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # Formatear el mensaje de log con la fecha y hora
-    log_message = f"{current_time} - {incident_message}"
+def count_values_in_directory(directory_path):
+    """
+    Recorre todos los archivos en la ruta especificada y cuenta las ocurrencias
+    de '-999' y de otros números.
+    """
+    total_negative_999 = 0
+    total_other_numbers = 0
+    file_count = 0
 
-    # Escribir el mensaje en el archivo log
-    with open("incidencias.log", "a") as log_file:
-        log_file.write(log_message + "\n")
+    for root, _, files in os.walk(directory_path):
+        for file_name in files:
+            file_path = os.path.join(root, file_name)
+            if os.path.isfile(file_path):  # Asegurarse de que es un archivo
+                file_count += 1
+                print(f"Procesando archivo: {file_name}")
+                file_negative_999, file_other_numbers = count_values_in_file(file_path)
+                total_negative_999 += file_negative_999
+                total_other_numbers += file_other_numbers
+                print(f"Ocurrencias de -999 en {file_name}: {file_negative_999}")
+                print(f"Ocurrencias de otros números en {file_name}: {file_other_numbers}")
 
-
-def check_files_in_directory(directory_path):
-    files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
-    for file_name in files:
-        file_path = os.path.join(directory_path, file_name)
-        valid, error = check_file_format(file_path)
-        if not valid:
-            print(f"Archivo con formato incorrecto: {file_name}")
-            print(f"Motivo: {error}")
-            log_incidences(f"Archivo: {file_name} - {error}")
-        else:
-            print(f"Archivo válido: {file_name}")
-
-    print("Revisión completada. Las incidencias se han registrado en incidencias.log.")
+    print(f"\nRevisión completada.")
+    print(f"Total de archivos procesados: {file_count}")
+    print(f"Total de ocurrencias de -999: {total_negative_999}")
+    print(f"Total de ocurrencias de otros números: {total_other_numbers}")
 
 
 # Ruta del directorio donde están los archivos
 directory_path = "/home/aleix.parise.7e8/Baixades/ficheroclima_bakup/"
-check_files_in_directory(directory_path)
+count_values_in_directory(directory_path)
