@@ -73,6 +73,6 @@ Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valor
 
 ## Ejercicio 3 - Obtención de Datos
 
-> Mostrar resúmenes estadísticos por pantalla
-> Mostrar gráficos estadísticos por pantalla
-> Exportar los resúmenes estadísticos a archivos CSV
+- Mostrar resúmenes estadísticos por pantalla
+- Mostrar gráficos estadísticos por pantalla
+- Exportar los resúmenes estadísticos a archivos CSV
