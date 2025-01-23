@@ -192,5 +192,5 @@ def validate_dat_files(directory):
         print("\033[31mSe encontraron errores en uno o más archivos .dat.\033[0m")
 
 # Cambia el directorio según sea necesario
-directory = "./prueba_clima"
+directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
 validate_dat_files(directory)
