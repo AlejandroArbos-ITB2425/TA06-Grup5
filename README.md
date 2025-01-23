@@ -61,9 +61,12 @@ Lectura: Utilizar pandas para gestionar los archivos y gestionar errores de lect
 Verifica la consistencia de las columnas: Asegurar que los datos en cada columna tienen el tipo esperado (numérico, fecha, etc.).
 Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valores atípicos.
 
+
+IMAGEN DE PRUEBAS  QUE SE HA HECHO:
+
+
 > PASO 4: Documenta todo el proceso por si tienes que repetirlo alguna vez. Indica qué decisiones has tomado, qué has hecho con los valores nulos y cómo has solucionado inconsistencias.
 
-Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
 - Calcular el porcentaje de datos carentes (-999)
 - Calcular estadísticas: de los datos procesados.
