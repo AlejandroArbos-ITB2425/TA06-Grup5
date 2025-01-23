@@ -5,7 +5,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Configuración inicial
-data_folder = "./PROVA"  # Carpeta que contiene los archivos
+data_folder = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"  # Carpeta que contiene los archivos
 missing_value = -999  # Valor que representa datos faltantes
 
 # Función para procesar un archivo
