@@ -197,6 +197,7 @@ def validate_dat_files(directory):
 directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
 validate_dat_files(directory)
 
+##################################################################################################################
 # Segunda parte: Calcular el porcentaje de datos faltantes (-999)
 def count_values_in_file(file_path):
     """
