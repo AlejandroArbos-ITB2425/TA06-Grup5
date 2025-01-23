@@ -61,9 +61,12 @@ Lectura: Utilizar pandas para gestionar los archivos y gestionar errores de lect
 Verifica la consistencia de las columnas: Asegurar que los datos en cada columna tienen el tipo esperado (numérico, fecha, etc.).
 Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valores atípicos.
 
+
+IMAGEN DE PRUEBAS  QUE SE HA HECHO:
+
+
 > PASO 4: Documenta todo el proceso por si tienes que repetirlo alguna vez. Indica qué decisiones has tomado, qué has hecho con los valores nulos y cómo has solucionado inconsistencias.
 
-Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
 - Calcular el porcentaje de datos carentes (-999)
 - Calcular estadísticas: de los datos procesados.
@@ -72,7 +75,7 @@ Al ejecutar el código desarrollado para analizar los archivos según los parám
 - Extremos: Los años más lluviosos y más secos.
 - Analizar los datos: pensar qué estadísticas tiene sentido hacer. Y añadir por lo menos dos más.
 
-![img7](./img/ej2/img_pas4_1.png)
+![img7](./img/ej2/img_pas4_2.png)
 
 Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
@@ -80,12 +83,11 @@ Al ejecutar el código desarrollado para analizar los archivos según los parám
 
 -El número total de ocurrencias del valor -999, que representa los datos faltantes o especiales, con un total de 10.682.560 ocurrencias.
 
--El total de otros valores presentes en los archivos, que suma 557.099.520 ocurrencias.
+-El total de otros valores presentes en los archivos, que suma 557.019.200 ocurrencias.
 
 -El porcentaje de valores -999 respecto al total de datos, que en este caso es del 1,88%
 
--El total de valores: 567.782.080
-
+-El total de valores: 567.701.760
 
 
 
