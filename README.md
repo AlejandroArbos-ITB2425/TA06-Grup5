@@ -76,13 +76,15 @@ Al ejecutar el código desarrollado para analizar los archivos según los parám
 
 Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
--El total de archivos procesados, que asciende a 16.062.
+-El total de archivos procesados, que asciende a 16.064.
 
--El número total de ocurrencias del valor -999, que representa los datos faltantes o especiales, con un total de 10.681.230 ocurrencias.
+-El número total de ocurrencias del valor -999, que representa los datos faltantes o especiales, con un total de 10.682.560 ocurrencias.
 
--El total de otros valores presentes en los archivos, que suma 59.368.369 ocurrencias.
+-El total de otros valores presentes en los archivos, que suma 557.099.520 ocurrencias.
 
--El porcentaje de valores -999 respecto al total de datos, que en este caso es del 1,77%
+-El porcentaje de valores -999 respecto al total de datos, que en este caso es del 1,88%
+
+-El total de valores: 567.782.080
 
 
 
