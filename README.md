@@ -77,7 +77,7 @@ Se ha hecho algunas pruebas, por ejemplo:
 - Extremos: Los años más lluviosos y más secos.
 - Analizar los datos: pensar qué estadísticas tiene sentido hacer. Y añadir por lo menos dos más.
 
-![img7](./img/ej2/img_pas4_2.png)
+![img8](./img/ej2/img_pas4_2.png)
 
 Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
