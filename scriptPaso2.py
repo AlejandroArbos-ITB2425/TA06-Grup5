@@ -194,7 +194,7 @@ def validate_dat_files(directory):
         print("\033[32mValidación completada: Todos los archivos .dat están en el formato esperado.\033[0m")
 
 # Cambia el directorio según sea necesario
-directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
+directory = "./pruebas_clima"
 validate_dat_files(directory)
 
 ##################################################################################################################

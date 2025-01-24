@@ -1,0 +1,16 @@
+2025-01-24 17:35:26: ERROR: precip.P10.MIROC5.RCP60.2006-2100.REGRESION.dat MOTIVO: Errores detectados.
+2025-01-24 17:35:26: 2 valores incorrectos en días inexistentes.
+2025-01-24 17:35:26: ERROR: precip.P15.MIROC5.RCP60.2006-2100.REGRESION.dat MOTIVO: Errores detectados.
+2025-01-24 17:35:26: 2 valores incorrectos en días inexistentes.
+2025-01-24 17:35:26: ERROR: precip.P17.MIROC5.RCP60.2006-2100.REGRESION.dat MOTIVO: Errores detectados.
+2025-01-24 17:35:26: Línea 10: tiene un número insuficiente de columnas (10). Se esperaban 34.
+2025-01-24 17:35:26: 1966 errores de secuencia temporal.
+2025-01-24 17:35:26: ERROR: precip.P21.MIROC5.RCP60.2006-2100.REGRESION.dat MOTIVO: No tiene suficientes líneas para ser procesado.
+2025-01-24 17:35:26: ERROR: precip.P23.MIROC5.RCP60.2006-2100.REGRESION.dat MOTIVO: Errores detectados.
+2025-01-24 17:35:26: Línea 27: tiene un número insuficiente de columnas (31). Se esperaban 34.
+2025-01-24 17:35:26: 1389 errores de secuencia temporal.
+2025-01-24 17:35:26: ERROR: precip.P6.MIROC5.RCP60.2006-2100.REGRESION.dat MOTIVO: Errores detectados.
+2025-01-24 17:35:26: Línea 5: tiene un número insuficiente de columnas (32). Se esperaban 34.
+2025-01-24 17:35:26: Línea 7: tiene un número insuficiente de columnas (0). Se esperaban 34.
+2025-01-24 17:35:26: Línea 12: tiene un número insuficiente de columnas (33). Se esperaban 34.
+2025-01-24 17:35:26: 1417 errores de secuencia temporal.
