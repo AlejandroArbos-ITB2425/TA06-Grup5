@@ -4,9 +4,10 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 import warnings
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-# Primera parte: Validación de archivos .dat
+# ----------------------- FUNCIONES DEL PRIMER SCRIPT (X) ----------------------- #
 def log_error(message, is_terminal=False):
     """Guarda el mensaje de error en el archivo errores.log y muestra en terminal si es necesario."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -16,6 +17,20 @@ def log_error(message, is_terminal=False):
 
     if is_terminal:
         print(f"\033[31m{message}\033[0m")
+
+def is_leap_year(year):
+    """Determina si un año es bisiesto."""
+    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+def get_days_in_month(year, month):
+    """Devuelve el número de días en un mes dado, considerando si el año es bisiesto."""
+    days_in_month = {
+        1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30,
+        7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
+    }
+    if month == 2 and is_leap_year(year):
+        return 29
+    return days_in_month.get(month, 0)
 
 def validate_dat_files(directory):
     """Valida que los archivos .dat cumplan con el formato especificado y que todos los archivos sean .dat."""
@@ -62,6 +77,24 @@ def validate_dat_files(directory):
                 error_message = f"ERROR: {file} MOTIVO: La cabecera no coincide con el formato esperado."
                 log_error(error_message)
                 all_valid = False
+
+            file_prefix = file.split('.')[1]
+            expected_prefix = file_prefix[1:]
+
+            second_line = lines[1].strip().split('\t')
+            if len(second_line) != 8 or not second_line[0].startswith('P'):
+                error_message = (
+                    f"ERROR: {file} MOTIVO: La segunda línea no cumple el formato. "
+                    f"Esperado prefijo 'P' y 8 columnas, encontrado: {len(second_line)} columnas."
+                )
+                log_error(error_message)
+                all_valid = False
+
+            if second_line[0][1:] != expected_prefix:
+                error_message = f"ERROR: {file} MOTIVO: El prefijo en la segunda línea ({second_line[0]}) no coincide con el nombre del archivo ({file_prefix})."
+                log_error(error_message)
+                all_valid = False
+
         except Exception as e:
             error_message = f"ERROR: {file} MOTIVO: Error inesperado durante el procesamiento. Detalles: {str(e)}"
             log_error(error_message)
@@ -72,64 +105,7 @@ def validate_dat_files(directory):
     else:
         print("\033[32mValidación completada: Todos los archivos .dat están en el formato esperado.\033[0m")
 
-# Cambia el directorio según sea necesario
-directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
-validate_dat_files(directory)
-
-# Segunda parte: Calcular el porcentaje de datos faltantes (-999)
-def count_values_in_file(file_path):
-    """Cuenta las ocurrencias de '-999' y otros números."""
-    count_negative_999 = 0
-    count_other_numbers = 0
-    try:
-        with open(file_path, 'r') as file:
-            for row_index, line in enumerate(file, start=1):
-                if row_index <= 2:
-                    continue
-                values = line.split()
-                values_to_count = values[3:]
-                count_negative_999 += values_to_count.count("-999")
-                count_other_numbers += sum(
-                    1 for value in values_to_count if value != "-999" and value.replace('.', '', 1).lstrip('-').isdigit()
-                )
-    except Exception as e:
-        print(f"Error al procesar {file_path}: {e}")
-    return count_negative_999, count_other_numbers
-
-def calculate_percentage(part, total):
-    return (part / total * 100) if total > 0 else 0
-
-def count_values_in_directory(directory_path):
-    total_negative_999 = 0
-    total_other_numbers = 0
-    file_count = 0
-
-    for root, _, files in os.walk(directory_path):
-        for file_name in files:
-            file_path = os.path.join(root, file_name)
-            if os.path.isfile(file_path):
-                file_count += 1
-                file_negative_999, file_other_numbers = count_values_in_file(file_path)
-                total_negative_999 += file_negative_999
-                total_other_numbers += file_other_numbers
-
-    total_values = total_negative_999 + total_other_numbers
-    percentage_negative_999 = calculate_percentage(total_negative_999, total_values)
-
-    print(f"\nRevisión completada.")
-    print(f"Total de archivos procesados: {file_count}")
-    print(f"Total de ocurrencias de -999: {total_negative_999}")
-    print(f"Total de ocurrencias de otros números: {total_other_numbers}")
-    print(f"Porcentaje de -999 respecto al total: {percentage_negative_999:.2f}%")
-
-    return percentage_negative_999
-
-count_values_in_directory(directory)
-
-# Tercera parte: Procesamiento y análisis estadístico
-data_folder = "./preci_prova"  # Carpeta que contiene los archivos
-missing_value = -999  # Valor que representa datos faltantes
-
+# ----------------------- FUNCIONES DEL SEGUNDO SCRIPT (Y) ----------------------- #
 def process_file(file_path):
     data = []
     with open(file_path, 'r') as file:
@@ -143,48 +119,52 @@ def process_file(file_path):
     df.iloc[:, 1:] = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce')
     return df
 
-all_data = []
-for filename in os.listdir(data_folder):
-    file_path = os.path.join(data_folder, filename)
-    if os.path.isfile(file_path):
-        try:
-            df = process_file(file_path)
-            df["Source_File"] = filename
-            all_data.append(df)
-        except Exception as e:
-            print(f"Error procesando el archivo {filename}: {e}")
+def analyze_data(directory):
+    missing_value = -999
+    all_data = []
 
-combined_df = pd.concat(all_data, ignore_index=True)
-combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].apply(pd.to_numeric, errors='coerce')
-combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].applymap(lambda x: np.nan if x == missing_value else x)
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path):
+            try:
+                df = process_file(file_path)
+                df["Source_File"] = filename
+                all_data.append(df)
+            except Exception as e:
+                print(f"Error procesando el archivo {filename}: {e}")
 
-combined_df["Annual_Total"] = combined_df.iloc[:, 3:].sum(axis=1, skipna=True)
-combined_df["Annual_Mean"] = combined_df.iloc[:, 3:].mean(axis=1, skipna=True)
+    combined_df = pd.concat(all_data, ignore_index=True)
+    combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].applymap(lambda x: np.nan if x == missing_value else x)
 
-annual_stats = combined_df.groupby("Year")["Annual_Total"].agg(['sum', 'mean'])
-annual_stats["Change_Rate"] = annual_stats["sum"].pct_change() * 100
+    # Asegurarse de que todas las columnas relevantes sean numéricas
+    numeric_cols = combined_df.columns[3:]
+    combined_df[numeric_cols] = combined_df[numeric_cols].apply(pd.to_numeric, errors='coerce')
 
-most_rainy_year = annual_stats["sum"].idxmax()
-least_rainy_year = annual_stats["sum"].idxmin()
+    combined_df["Annual_Total"] = combined_df.iloc[:, 3:].sum(axis=1, skipna=True)
+    combined_df["Annual_Mean"] = combined_df.iloc[:, 3:].mean(axis=1, skipna=True)
 
-max_daily_precip = combined_df.iloc[:, 3:].max(axis=1).groupby(combined_df['Year']).max()
-min_daily_precip = combined_df.iloc[:, 3:].min(axis=1).groupby(combined_df['Year']).min()
-annual_stats["Max_Daily"] = max_daily_precip
-annual_stats["Min_Daily"] = min_daily_precip
+    annual_stats = combined_df.groupby("Year")["Annual_Total"].agg(['sum', 'mean'])
+    annual_stats["Change_Rate"] = annual_stats["sum"].pct_change() * 100
 
-for year in annual_stats.index:
-    print(f"\nResumen para el año {year}:")
-    print(f"Total de precipitación en {year}: {annual_stats.loc[year, 'sum']}")
-    print(f"Promedio anual en {year}: {annual_stats.loc[year, 'mean']:.2f}")
-    change_rate = annual_stats.loc[year, "Change_Rate"]
-    print(f"Tasa de variación anual en {year}: {change_rate:.2f}%")
-    print(f"Precipitación diaria máxima en {year}: {annual_stats.loc[year, 'Max_Daily']}")
-    print(f"Precipitación diaria mínima en {year}: {annual_stats.loc[year, 'Min_Daily']}")
+    most_rainy_year = annual_stats["sum"].idxmax()
+    least_rainy_year = annual_stats["sum"].idxmin()
 
-print("\n" + "-"*40)
-print(f"Año más lluvioso: {most_rainy_year}, Precipitación total: {annual_stats.loc[most_rainy_year, 'sum']}")
-print(f"Año más seco: {least_rainy_year}, Precipitación total: {annual_stats.loc[least_rainy_year, 'sum']}")
+    print("\n" + "-" * 40)
+    print(f"Año más lluvioso: {most_rainy_year}, Precipitación total: {annual_stats.loc[most_rainy_year, 'sum']}")
+    print(f"Año más seco: {least_rainy_year}, Precipitación total: {annual_stats.loc[least_rainy_year, 'sum']}")
 
-annual_stats.to_csv("resultados_annual_stats.csv", index=True)
-with open("resultados_annual_stats.txt", "w") as f:
-    f.write(annual_stats.to_string())
+    annual_stats.to_csv("resultados_annual_stats.csv", index=True)
+    with open("resultados_annual_stats.txt", "w") as f:
+        f.write(annual_stats.to_string())
+
+# ----------------------- EJECUCIÓN SECUENCIAL ----------------------- #
+
+directory_x = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
+directory_y = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
+print("Iniciando validación de archivos .dat...")
+validate_dat_files(directory_x)
+
+print("\nIniciando análisis de datos...")
+analyze_data(directory_y)
+
+print("\nProceso completo.")
