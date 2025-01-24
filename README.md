@@ -69,12 +69,13 @@ Se ha hecho algunas pruebas, por ejemplo:
 - Introducir valores no numéricos donde no toca
 
 > PASO 4: Documenta todo el proceso por si tienes que repetirlo alguna vez. Indica qué decisiones has tomado, qué has hecho con los valores nulos y cómo has solucionado inconsistencias.
-Calcular el porcentaje de datos carentes (-999)
-Calcular estadísticas: de los datos procesados.
-Medios y totales anuales: Muestra la precipitación total y media por año.
-Tendencia de cambio: La tasa de variación anual de las precipitaciones.
-Extremos: Los años más lluviosos y más secos.
-Analizar los datos: pensar qué estadísticas tiene sentido hacer. Y añadir por lo menos dos más.
+
+· Calcular el porcentaje de datos carentes (-999)
+· Calcular estadísticas: de los datos procesados.
+· Medios y totales anuales: Muestra la precipitación total y media por año.
+· Tendencia de cambio: La tasa de variación anual de las precipitaciones.
+· Extremos: Los años más lluviosos y más secos.
+· Analizar los datos: pensar qué estadísticas tiene sentido hacer. Y añadir por lo menos dos más.
 
 ![img8](./img/ej2/img_pas4_2.png)
 
