@@ -114,6 +114,8 @@ _TOTAL ANUAL:_
 
 - El año más seco es el 2027
 
+Se podría incluir algunas estadísticas como el promedio de precipitación por mes, promedio de precipitaciones por estación del año (primavera, verano, otoño,invierno) o los años con precipitación mayor a un umbral específico. 
+
 ## Ejercicio 3 - Obtención de Datos
 
 - Mostrar resúmenes estadísticos por pantalla
