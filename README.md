@@ -61,21 +61,28 @@ Lectura: Utilizar pandas para gestionar los archivos y gestionar errores de lect
 Verifica la consistencia de las columnas: Asegurar que los datos en cada columna tienen el tipo esperado (numérico, fecha, etc.).
 Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valores atípicos.
 
+![img7](./img/ej2/img_ej2_errores.png)
 
-IMAGEN DE PRUEBAS  QUE SE HA HECHO:
-
+Se ha hecho algunas pruebas, por ejemplo: 
+- columnas y filas
+- Introducir fechas incorrectas. (El año sólo puede ser des del 2006-2100, un año sólo puede tener 12 meses ...)
+- Introducir valores no numéricos donde no toca
 
 > PASO 4: Documenta todo el proceso por si tienes que repetirlo alguna vez. Indica qué decisiones has tomado, qué has hecho con los valores nulos y cómo has solucionado inconsistencias.
 
+· Calcular el porcentaje de datos carentes (-999)
 
-- Calcular el porcentaje de datos carentes (-999)
-- Calcular estadísticas: de los datos procesados.
-- Medios y totales anuales: Muestra la precipitación total y media por año.
-- Tendencia de cambio: La tasa de variación anual de las precipitaciones.
-- Extremos: Los años más lluviosos y más secos.
-- Analizar los datos: pensar qué estadísticas tiene sentido hacer. Y añadir por lo menos dos más.
+· Calcular estadísticas: de los datos procesados.
 
-![img7](./img/ej2/img_pas4_2.png)
+· Medios y totales anuales: Muestra la precipitación total y media por año.
+
+· Tendencia de cambio: La tasa de variación anual de las precipitaciones.
+
+· Extremos: Los años más lluviosos y más secos.
+
+· Analizar los datos: pensar qué estadísticas tiene sentido hacer. Y añadir por lo menos dos más.
+
+![img8](./img/ej2/img_pas4_2.png)
 
 Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
