@@ -97,6 +97,16 @@ Al ejecutar el código desarrollado para analizar los archivos según los parám
 -El total de valores: 567.701.760
 
 
+LA MEDIA ANUAL: 
+![img9](./img/ej2/img_pas4_3.png)
+
+![img9](./img/ej2/img_pas4_4.png)
+
+TOTAL ANUAL: 
+![img9](./img/ej2/img_pas4_5.png)
+
+![img9](./img/ej2/img_pas4_6.png)
+
 
 ## Ejercicio 3 - Obtención de Datos
 
