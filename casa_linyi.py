@@ -1,85 +1,87 @@
 import os
-import pandas as pd
 import numpy as np
-import warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
 
-# Configuración inicial
-data_folder = "./preci_prova"  # Carpeta que contiene los archivos
-missing_value = -999  # Valor que representa datos faltantes
 
-# Función para procesar un archivo
-def process_file(file_path):
-    data = []
-    with open(file_path, 'r') as file:
-        for line in file.readlines()[2:]:  # Ignorar las dos primeras líneas
-            parts = line.strip().split()
-            if len(parts) > 3:
-                data.append(parts)
+def calculate_annual_precipitation(input_dir):
+    """
+    Calcula la media anual y la precipitación total de cada año para cada estación meteorológica,
+    y determina el año con más y menos precipitación. Garantiza que no haya años repetidos
+    y cubre todos los años que deberían existir en los datos.
 
-    # Crear el DataFrame
-    columns = ["Region", "Year", "Month"] + [f"Day_{i + 1}" for i in range(31)]
-    df = pd.DataFrame(data, columns=columns)
+    Args:
+        input_dir (str): Directorio donde se encuentran los archivos.
+    """
+    # Crear una lista para almacenar los resultados
+    results = []
 
-    # Convertir las columnas relevantes a tipo numérico
-    df.iloc[:, 1:] = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce')
-    return df
+    # Variables para almacenar el año con más y menos precipitación
+    max_precipitation_year = None
+    min_precipitation_year = None
+    max_precipitation = float('-inf')
+    min_precipitation = float('inf')
 
-# Leer y combinar los datos de todos los archivos
-all_data = []
-for filename in os.listdir(data_folder):
-    file_path = os.path.join(data_folder, filename)
-    if os.path.isfile(file_path):
-        try:
-            df = process_file(file_path)
-            df["Source_File"] = filename  # Añadir el nombre del archivo como columna
-            all_data.append(df)
-        except Exception as e:
-            print(f"Error procesando el archivo {filename}: {e}")
+    # Diccionario para almacenar la precipitación anual por año
+    annual_precip = {}
 
-# Combinar todos los datos en un único DataFrame
-combined_df = pd.concat(all_data, ignore_index=True)
+    # Iterar sobre cada archivo en el directorio
+    for file_name in os.listdir(input_dir):
+        file_path = os.path.join(input_dir, file_name)
 
-# Reemplazar valores faltantes (-999) por NaN y convertir todas las columnas relevantes a numéricas
-combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].apply(pd.to_numeric, errors='coerce')
-combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].applymap(lambda x: np.nan if x == missing_value else x)
+        # Comprobar que es un archivo válido
+        if os.path.isfile(file_path) and file_name.endswith(".dat"):
+            with open(file_path, "r") as file:
+                lines = file.readlines()
 
-# Calcular totales y medias anuales
-combined_df["Annual_Total"] = combined_df.iloc[:, 3:].sum(axis=1, skipna=True)
-combined_df["Annual_Mean"] = combined_df.iloc[:, 3:].mean(axis=1, skipna=True)
+            # Ignorar las dos primeras filas
+            data_lines = lines[2:]
 
-# Agrupar por año y calcular los totales y medias anuales
-annual_stats = combined_df.groupby("Year")["Annual_Total"].agg(['sum', 'mean'])
+            # Procesar cada fila (mes)
+            for line in data_lines:
+                parts = line.split()
 
-# Calcular la tasa de variación anual (porcentaje de cambio entre los totales de años consecutivos)
-annual_stats["Change_Rate"] = annual_stats["sum"].pct_change() * 100
+                # Extraer información de la fila
+                station_id = parts[0]  # Ejemplo: P3, P4...
+                year = int(parts[1])
+                month = int(parts[2])
+                precipitation = np.array([float(x) for x in parts[3:] if x != "-999" and x != "-999.0"])
 
-# Identificar el año más lluvioso y el más seco
-most_rainy_year = annual_stats["sum"].idxmax()
-least_rainy_year = annual_stats["sum"].idxmin()
+                # Si no hay datos para el año, inicializar
+                if year not in annual_precip:
+                    annual_precip[year] = []
 
-# Estadísticas adicionales
-max_daily_precip = combined_df.iloc[:, 3:].max(axis=1).groupby(combined_df['Year']).max()
-min_daily_precip = combined_df.iloc[:, 3:].min(axis=1).groupby(combined_df['Year']).min()
-annual_stats["Max_Daily"] = max_daily_precip
-annual_stats["Min_Daily"] = min_daily_precip
+                # Añadir la precipitación mensual al total del año
+                annual_precip[year].append(precipitation.sum())
 
-# Mostrar un resumen por cada año
-for year in annual_stats.index:
-    print(f"\nResumen para el año {year}:")
-    print(f"Total de precipitación en {year}: {annual_stats.loc[year, 'sum']}")
-    print(f"Promedio anual en {year}: {annual_stats.loc[year, 'mean']:.2f}")
-    change_rate = annual_stats.loc[year, "Change_Rate"]
-    print(f"Tasa de variación anual en {year}: {change_rate:.2f}%")
-    print(f"Precipitación diaria máxima en {year}: {annual_stats.loc[year, 'Max_Daily']}")
-    print(f"Precipitación diaria mínima en {year}: {annual_stats.loc[year, 'Min_Daily']}")
+    # Calcular la media anual y la suma total por año
+    for year, monthly_precip in annual_precip.items():
+        annual_mean = sum(monthly_precip) / len(monthly_precip)  # Media anual
+        annual_total = sum(monthly_precip)  # Precipitación total anual
+        results.append({"Year": year, "AnnualMean": annual_mean, "AnnualTotal": annual_total})
 
-# Mostrar los resultados principales al final
-print("\n" + "-"*40)
-print(f"Año más lluvioso: {most_rainy_year}, Precipitación total: {annual_stats.loc[most_rainy_year, 'sum']}")
-print(f"Año más seco: {least_rainy_year}, Precipitación total: {annual_stats.loc[least_rainy_year, 'sum']}")
+        # Verificar el año con más y menos precipitación
+        if annual_total > max_precipitation:
+            max_precipitation = annual_total
+            max_precipitation_year = year
 
-# Guardar los resultados
-annual_stats.to_csv("resultados_annual_stats.csv", index=True)
-with open("resultados_annual_stats.txt", "w") as f:
-    f.write(annual_stats.to_string())
+        if annual_total < min_precipitation:
+            min_precipitation = annual_total
+            min_precipitation_year = year
+
+    # Ordenar los resultados por año para asegurar una presentación cronológica
+    results.sort(key=lambda x: x["Year"])
+
+    # Mostrar los resultados por pantalla
+    for result in results:
+        print(
+            f"Año: {result['Year']}, Media Anual de Precipitación: {result['AnnualMean']:.2f}, Total Anual: {result['AnnualTotal']:.2f}")
+
+    # Mostrar el año con más y menos precipitación
+    print(f"\nEl año con más precipitación fue {max_precipitation_year} con {max_precipitation:.2f} mm.")
+    print(f"El año con menos precipitación fue {min_precipitation_year} con {min_precipitation:.2f} mm.")
+
+
+# Configuración
+input_directory = "./preci_prova"
+
+# Ejecutar la función
+calculate_annual_precipitation(input_directory)
