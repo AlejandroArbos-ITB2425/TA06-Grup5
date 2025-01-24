@@ -86,15 +86,15 @@ Se ha hecho algunas pruebas, por ejemplo:
 
 Al ejecutar el código desarrollado para analizar los archivos según los parámetros indicados en el enunciado, se han obtenido los resultados que se muestran en la imagen adjunta. Este código ha permitido identificar:
 
--El total de archivos procesados, que asciende a 16.064.
+- El total de archivos procesados, que asciende a 16.064.
 
--El número total de ocurrencias del valor -999, que representa los datos faltantes o especiales, con un total de 10.682.560 ocurrencias.
+- El número total de ocurrencias del valor -999, que representa los datos faltantes o especiales, con un total de 10.682.560 ocurrencias.
 
--El total de otros valores presentes en los archivos, que suma 557.019.200 ocurrencias.
+- El total de otros valores presentes en los archivos, que suma 557.019.200 ocurrencias.
 
--El porcentaje de valores -999 respecto al total de datos, que en este caso es del 1,88%
+- El porcentaje de valores -999 respecto al total de datos, que en este caso es del 1,88%
 
--El total de valores: 567.701.760
+- El total de valores: 567.701.760
 
 
 _LA MEDIA ANUAL:_ 
@@ -113,6 +113,8 @@ _TOTAL ANUAL:_
 - El año más lluvioso ha sido el 2022
 
 - El año más seco es el 2027
+
+Se podría incluir algunas estadísticas como: el promedio de precipitación por mes, promedio de precipitaciones por estación del año (primavera, verano, otoño,invierno) o los años con precipitación mayor a un umbral específico. 
 
 ## Ejercicio 3 - Obtención de Datos
 
