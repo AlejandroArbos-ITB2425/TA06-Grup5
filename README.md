@@ -103,7 +103,7 @@ _LA MEDIA ANUAL:_
 
 ![img9](./img/ej2/img_pas4_4.png)
 
-_TOTAL ANUAL: _
+_TOTAL ANUAL:_
 
 ![img9](./img/ej2/img_pas4_5.png)
 
