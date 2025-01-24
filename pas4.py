@@ -40,14 +40,8 @@ for filename in os.listdir(data_folder):
 # Combinar todos los datos en un único DataFrame
 combined_df = pd.concat(all_data, ignore_index=True)
 
-# Calcular el porcentaje y número total de datos faltantes
-total_values = combined_df.iloc[:, 3:].size
-missing_values = (combined_df.iloc[:, 3:] == missing_value).sum().sum()
-missing_percentage = (missing_values / total_values) * 100
-
 # Convertir columnas numéricas y reemplazar valores faltantes
-for col in combined_df.columns[3:]:
-    combined_df[col] = pd.to_numeric(combined_df[col], errors='coerce')
+combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].apply(pd.to_numeric, errors='coerce')
 
 # Sustituir valores negativos por NaN
 combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].applymap(lambda x: np.nan if x < 0 else x)
@@ -55,27 +49,29 @@ combined_df.iloc[:, 3:] = combined_df.iloc[:, 3:].applymap(lambda x: np.nan if x
 # Calcular totales y medias anuales
 combined_df["Annual_Total"] = combined_df.iloc[:, 3:].sum(axis=1)
 combined_df["Annual_Mean"] = combined_df.iloc[:, 3:].mean(axis=1)
-annual_stats = combined_df.groupby("Year")[["Annual_Total", "Annual_Mean"]].sum()
 
-# Calcular la tasa de variación anual
-annual_stats["Change_Rate"] = annual_stats["Annual_Total"].pct_change() * 100
+# Agrupar por año y calcular los totales y medias anuales
+annual_stats = combined_df.groupby("Year")[["Annual_Total", "Annual_Mean"]].agg(['sum', 'mean'])
+
+# Calcular la tasa de variación anual (porcentaje de cambio entre los totales de años consecutivos)
+annual_stats["Annual_Total", "Change_Rate"] = annual_stats["Annual_Total", "sum"].pct_change() * 100
 
 # Identificar el año más lluvioso y el más seco
-most_rainy_year = annual_stats["Annual_Total"].idxmax()
-least_rainy_year = annual_stats["Annual_Total"].idxmin()
+most_rainy_year = annual_stats["Annual_Total", "sum"].idxmax()
+least_rainy_year = annual_stats["Annual_Total", "sum"].idxmin()
 
 # Mostrar un resumen por cada año
 for year in annual_stats.index:
     print(f"\nResumen para el año {year}:")
-    print(f"Total de precipitación en {year}: {annual_stats.loc[year, 'Annual_Total']}")
-    print(f"Promedio mensual en {year}: {annual_stats.loc[year, 'Annual_Mean']:.2f}")
-    change_rate = annual_stats.loc[year, "Change_Rate"]
+    print(f"Total de precipitación en {year}: {annual_stats.loc[year, ('Annual_Total', 'sum')]}")
+    print(f"Promedio mensual en {year}: {annual_stats.loc[year, ('Annual_Mean', 'mean')]:.2f}")
+    change_rate = annual_stats.loc[year, ("Annual_Total", "Change_Rate")]
     print(f"Tasa de variación anual en {year}: {change_rate:.2f}%")
 
 # Mostrar los resultados principales al final
 print("\n" + "-"*40)
-print(f"Año más lluvioso: {most_rainy_year}, Precipitación total: {annual_stats.loc[most_rainy_year, 'Annual_Total']}")
-print(f"Año más seco: {least_rainy_year}, Precipitación total: {annual_stats.loc[least_rainy_year, 'Annual_Total']}")
+print(f"Año más lluvioso: {most_rainy_year}, Precipitación total: {annual_stats.loc[most_rainy_year, ('Annual_Total', 'sum')]}")
+print(f"Año más seco: {least_rainy_year}, Precipitación total: {annual_stats.loc[least_rainy_year, ('Annual_Total', 'sum')]}")
 
 
 # Guardar los resultados
