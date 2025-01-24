@@ -61,7 +61,7 @@ Lectura: Utilizar pandas para gestionar los archivos y gestionar errores de lect
 Verifica la consistencia de las columnas: Asegurar que los datos en cada columna tienen el tipo esperado (numérico, fecha, etc.).
 Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valores atípicos.
 
-![img7](./img/img_ej2_errores.png)
+![img7](./img/ej2/img_ej2_errores.png)
 
 Se ha hecho algunas pruebas, por ejemplo: 
 - columnas y filas
