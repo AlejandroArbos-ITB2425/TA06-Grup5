@@ -269,3 +269,7 @@ def count_values_in_directory(directory_path):
 # Ruta del directorio donde están los archivos
 directory_path = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
 count_values_in_directory(directory_path)
+
+
+
+#a
