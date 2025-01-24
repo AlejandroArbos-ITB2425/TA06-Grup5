@@ -110,8 +110,9 @@ _TOTAL ANUAL:_
 ![img9](./img/ej2/img_pas4_6.png)
 
 
-El año más lluvioso ha sido el 2022
-El año más seca es el 2027
+- El año más lluvioso ha sido el 2022
+- 
+- El año más seco es el 2027
 
 ## Ejercicio 3 - Obtención de Datos
 
