@@ -128,6 +128,7 @@ Publicar los datos generados por la aplicación, en formato web en una URL públ
 La web debe estar bien estructurada:
 - Archivos HTML y CSS separados
 - Recursos, como por ejemplo las imágenes, en directorio aparte.
+  
 La web debe mostrar:
 - Resúmenes estadísticos
 - Gráficos estadísticos
