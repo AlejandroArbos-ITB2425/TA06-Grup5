@@ -116,8 +116,22 @@ _TOTAL ANUAL:_
 
 Se podría incluir algunas estadísticas como: el promedio de precipitación por mes, promedio de precipitaciones por estación del año (primavera, verano, otoño,invierno) o los años con precipitación mayor a un umbral específico. 
 
-## Ejercicio 3 - Obtención de Datos
+## Ejercicio 3 - Generar Resultados
 
 - Mostrar resúmenes estadísticos por pantalla
 - Mostrar gráficos estadísticos por pantalla
 - Exportar los resúmenes estadísticos a archivos CSV
+
+## Ejercicio 4 - Publicar los Datos
+
+Publicar los datos generados por la aplicación, en formato web en una URL pública. La web debe tener una URL pública.
+La web debe estar bien estructurada:
+- Archivos HTML y CSS separados
+- Recursos, como por ejemplo las imágenes, en directorio aparte.
+- La web debe mostrar:
+- Resúmenes estadísticos
+- Gráficos estadísticos
+
+
+
+## Ejercicio 5 - Reflexión y Conclusión del Proyecto 
