@@ -1,36 +1,64 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resum Estadístic de Precipitació</title>
+    <title>Estadísticas de Precipitación</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="./js/script.js"></script>
 </head>
 <body>
+
     <header>
-        <h1>Resum Estadístic de Precipitació</h1>
+        <div class="header-content">
+            <h1 class="fade-in">📊 Estadísticas de Precipitación</h1>
+            <p>Explora datos meteorológicos sobre precipitaciones a lo largo de los años.</p>
+        </div>
+        <a href="./html/equipo.html" class="btn">🏛️ Sobre el Proyecto</a>
     </header>
+    
 
-    <section>
-        <h2>Resum Estadístic</h2>
-        <table id="resum-table">
-            <!-- Taula omplerta per JavaScript -->
-        </table>
-    </section>
+    <main>
+        <section class="introduccion">
+            <h2>Bienvenido 🌍</h2>
+            <p>
+                Bienvenido a nuestra plataforma de análisis de precipitaciones. En este sitio, podrás explorar datos detallados sobre la evolución de las lluvias a lo largo de los años, con gráficos y estadísticas clave.  
+            </p>
+            <p>
+                Hemos descargado y procesado un conjunto de datos meteorológicos compuesto por <strong>16.064 archivos</strong>, cada uno correspondiente a una estación meteorológica diferente. Los datos abarcan el periodo comprendido entre <strong>2006 y 2100</strong>, proporcionando información detallada de <strong>precipitaciones diarias</strong> a lo largo de todos los meses y años.  
+            </p>
+            <p>
+                Nuestro objetivo es facilitar la comprensión de los patrones climáticos a través de análisis estadísticos y visualizaciones dinámicas. ¡Explora y descubre cómo han cambiado las precipitaciones a lo largo del tiempo! 🌦️📊
+            </p>
+        </section>
 
-    <section>
-        <h2>Gràfics Estadístics</h2>
-        <img src="images/precipitacio_anual.png" alt="Gràfic de precipitació anual">
-        <img src="images/precipitacio_mensual.png" alt="Gràfic de precipitació mensual">
-    </section>
+        <section class="resumen">
+            <h2>📌 Resumen Estadístico</h2>
+            <table id="tabla-resumen">
+                <!-- Aquí se insertarán los datos dinámicamente -->
+            </table>
+        </section>
 
-    <section>
-        <h2>Descarrega de dades</h2>
-        <a href="data/resum_estadistic.csv" download>Descarrega el resum estadístic</a>
-        <a href="data/precipitacio_anual.csv" download>Descarrega la precipitació anual</a>
-        <a href="data/precipitacio_mensual.csv" download>Descarrega la precipitació mensual</a>
-    </section>
+        <section class="graficos">
+            <h2>📈 Gráficos de Precipitación</h2>
+            <div class="imagenes">
+                <img src="images/precipitacio_anual.png" alt="Precipitación Anual">
+                <img src="images/precipitacio_mensual.png" alt="Precipitación Mensual">
+            </div>
+        </section>
 
-    <script src="script.js"></script>
+        <section class="descarga">
+            <h2>📂 Descargar Datos</h2>
+            <a href="data/resum_estadistic.csv" class="btn">📥 Descargar Resumen CSV</a>
+            <a href="data/precipitacio_anual.csv" class="btn">📥 Descargar Precipitación Anual</a>
+            <a href="data/precipitacio_mensual.csv" class="btn">📥 Descargar Precipitación Mensual</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>🌦️ Datos meteorológicos - Proyecto de Precipitación - 2025</p>
+        <p>📌 <strong>Grupo 6</strong> | Desarrollado por: <strong>Alejandro Arbós, Linyi Zhang, Eduard Pérez y Aleix Parisé</strong></p>
+    </footer>
+
 </body>
 </html>

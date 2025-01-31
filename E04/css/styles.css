@@ -1,0 +1,229 @@
+    /* --- ESTILOS GENERALES --- */
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(180deg, #e3f2fd, #cceeff);
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto; /* Permite el scroll sin mostrar la barra */
+        scrollbar-width: none; /* 🔹 Oculta la barra de scroll en Firefox */
+    }
+
+    /* 🔹 Ocultar scroll en navegadores basados en Webkit (Chrome, Edge, Safari) */
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* --- HEADER MEJORADO CON EFECTO DE ENTRADA --- */
+    header {
+        background: linear-gradient(135deg, #0077b6, #005f8a);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 100%;
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: fadeInHeader 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeInHeader {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* --- CONTENIDO DEL HEADER --- */
+    .header-content {
+        width: 95%;
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    header h1 {
+        font-size: 2.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    header p {
+        font-size: 1.1em;
+        opacity: 0.85;
+        margin-top: 5px;
+    }
+
+    /* --- NAVEGACIÓN Y BOTONES GENERALES --- */
+    nav {
+        margin-top: 10px;
+    }
+
+    nav a {
+        text-decoration: none;
+        background: #0077b6;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+    nav a:hover {
+        background: #005f8a;
+    }
+
+    /* --- HACER EL CONTENIDO MÁS AMPLIO Y VISIBLE --- */
+    main {
+        width: 95%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px 0;
+    }
+
+    /* --- SECCIONES MÁS ANCHAS Y VISIBLES (CORREGIDO) --- */
+    section {
+        background: white;
+        padding: 25px;
+        margin: 20px auto;
+        border-radius: 8px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 1100px;
+        opacity: 1; /* 🔹 Asegurar que sean visibles */
+        transform: translateY(0); /* 🔹 Evitar que se queden ocultas */
+    }
+
+    /* --- ANIMACIÓN PARA APARECER AL HACER SCROLL (CORRECCIÓN) --- */
+
+
+    section.visible {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+
+    /* --- BOTONES CON EFECTO RESPLANDOR AL HACER HOVER --- */
+    .btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #0077b6, #005f8a);
+        color: white;
+        padding: 12px 20px;
+        margin: 5px 3px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #005f8a, #003f5e);
+        transform: scale(1.05);
+        box-shadow: 0px 0px 15px rgba(0, 119, 182, 0.8);
+    }
+
+    /* --- TABLA MEJORADA --- */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 5px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #0077b6;
+        color: white;
+    }
+
+    /* --- IMÁGENES Y GRÁFICOS MÁS GRANDES Y BIEN POSICIONADOS --- */
+    .imagenes {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 10px;
+    }
+
+    img {
+        max-width: 48%;
+        min-width: 300px;
+        border-radius: 6px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    img:hover {
+        transform: scale(1.02);
+    }
+
+    /* --- EQUIPO - AJUSTE DE ESPACIADO --- */
+    .team {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .team-member {
+        text-align: center;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+        width: 220px;
+        transition: transform 0.3s;
+    }
+
+    .team-member img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-member h3 {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #005f8a;
+    }
+
+    .team-member p {
+        font-size: 0.9em;
+        opacity: 0.8;
+    }
+
+    .team-member:hover {
+        transform: scale(1.05);
+    }
+
+    /* --- FOOTER MÁS COMPACTO --- */
+    footer {
+        text-align: center;
+        padding: 12px;
+        background-color: #005f8a;
+        color: white;
+        margin-top: 20px;
+        font-size: 0.9em;
+        border-top: 2px solid #0096c7;
+        width: 100%;
+    }
