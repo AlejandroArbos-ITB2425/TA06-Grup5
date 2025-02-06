@@ -64,7 +64,7 @@ Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valor
 ![img7](./img/ej2/img_ej2_errores.png)
 
 Se ha hecho algunas pruebas, por ejemplo: 
-- eEl número de columnas y filas
+- El número de columnas y filas
 - Introducir fechas incorrectas. (El año sólo puede ser des del 2006-2100, un año sólo puede tener 12 meses ...)
 - Introducir valores no numéricos donde no toca
 
@@ -132,7 +132,8 @@ Realizamos una análisis del archivo .dat para poder entender la estructura, los
 - Valores faltantes: -999, los cuales indican datos no disponibles.
 
 3. Hicimos un script que leía los archivos y determinaba el número de columnas, filas, delimitadores, valores nulos y cantidad de datos procesados.
-4.  
+4. Otro script para detectar errores; como eliminar columnas, números, archivos que no son .dat, etc.
+5. Un script para calcular estadísticas; la precipitación media anual, la total, la tasa de variación, el año más lluvioso y seco. 
 
 ## Ejercicio 3 - Generar Resultados
 
