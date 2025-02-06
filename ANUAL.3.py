@@ -72,7 +72,7 @@ def calculate_annual_precipitation(input_dir):
     results.sort(key=lambda x: x["Year"])
 
     for result in results:
-        print(f"Año: {result['Year']}, Total Anual Ajustado: {result['AnnualTotal']:.2f} mm")
+        print(f"Año: {result['Year']}, Media Anual: {result['AnnualTotal']:.2f} mm")
 
     print(f"\nEl año con más precipitación fue {max_precipitation_year} con {max_precipitation:.2f} mm.")
     print(f"El año con menos precipitación fue {min_precipitation_year} con {min_precipitation:.2f} mm.")
