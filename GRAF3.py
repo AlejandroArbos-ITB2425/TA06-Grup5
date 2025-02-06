@@ -54,7 +54,7 @@ def calculate_annual_precipitation(input_dir):
 
     results.sort(key=lambda x: x["Year"])
 
-    # Mostrar gráfica
+    # Mostrar gráfica de Media Anual de Precipitación
     years = [result["Year"] for result in results]
     annual_totals = [result["AnnualTotal"] for result in results]
     
@@ -68,10 +68,17 @@ def calculate_annual_precipitation(input_dir):
     plt.tight_layout()
     plt.show()
     
-    return results
+    print("\nMedia Anual de Precipitación:")
+    for result in results:
+        print(f"Año: {result['Year']}, Media Anual: {result['AnnualTotal']:.2f} mm")
+    print(f"\nEl año con más precipitación fue {max_precipitation_year} con {max_precipitation:.2f} mm.")
+    print(f"El año con menos precipitación fue {min_precipitation_year} con {min_precipitation:.2f} mm.")
+    
+    return results, max_precipitation_year, max_precipitation, min_precipitation_year, min_precipitation
+
 
 # ------------------------------
-# Cálculo de la Tasa de Variación Anual
+# Cálculo de Tasa de Variación Anual
 # ------------------------------
 def calcular_tasa_variacion_anual(results):
     tasas_variacion = {}
@@ -81,7 +88,7 @@ def calcular_tasa_variacion_anual(results):
         tasa = ((total_actual - total_anterior) / total_anterior) * 100
         tasas_variacion[año_actual] = tasa
     
-    # Mostrar gráfica
+    # Mostrar gráfica de Tasa de Variación Anual
     años = list(tasas_variacion.keys())
     tasas = list(tasas_variacion.values())
     
@@ -94,8 +101,9 @@ def calcular_tasa_variacion_anual(results):
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
-    
+
     return tasas_variacion
+
 
 # ------------------------------
 # Guardar resultados en CSV
@@ -113,8 +121,9 @@ def guardar_resultados_csv(resultados, tasas_variacion, nombre_archivo="resultad
     
     print(f"Resultados guardados en {nombre_archivo}")
 
+
 # Ejecutar el cálculo y mostrar las gráficas
 input_directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
-results = calculate_annual_precipitation(input_directory)
+results, max_precipitation_year, max_precipitation, min_precipitation_year, min_precipitation = calculate_annual_precipitation(input_directory)
 tasas_variacion = calcular_tasa_variacion_anual(results)
 guardar_resultados_csv(results, tasas_variacion)
