@@ -101,13 +101,13 @@ _LA MEDIA ANUAL:_
 
 ![img9](./img/ej2/img_pas4_3.png)
 
-![img9](./img/ej2/img_pas4_4.png)
+![img10](./img/ej2/img_pas4_4.png)
 
 _TOTAL ANUAL:_
 
-![img9](./img/ej2/img_pas4_5.png)
+![imG11](./img/ej2/img_pas4_5.png)
 
-![img9](./img/ej2/img_pas4_6.png)
+![img12](./img/ej2/img_pas4_6.png)
 
 
 - El año más lluvioso ha sido el 2022
@@ -133,21 +133,53 @@ Realizamos una análisis del archivo .dat para poder entender la estructura, los
 
 ## Ejercicio 3 - Generar Resultados
 
-- Mostrar resúmenes estadísticos por pantalla
-- Mostrar gráficos estadísticos por pantalla
-- Exportar los resúmenes estadísticos a archivos CSV
+> - Mostrar resúmenes estadísticos por pantalla
+> - Mostrar gráficos estadísticos por pantalla
+> - Exportar los resúmenes estadísticos a archivos CSV
+
+#### PRECIPITACIÓN MEDIA ANUAL
+
+![img13](./img/ej3/RE1.png)
+![img14](./img/ej3/RE2.png)
+
+#### PRECIPITACIÓN TOTAL ANUAL
+
+![img15](./img/ej3/RE3_1.png)
+![img16](./img/ej3/RE3_2.png)
+
+#### TASA DE VARIACIÓN ANUAL
+
+![img17](./img/ej3/RE4_1.png)
+![img18](./img/ej3/RE4_2.png)
+
+#### GRÁFICO DE MEDIA ANUAL DE PRECIPITACIÓN
+![img19](./img/ej3/RE5.png)
+
+#### GRÁFICO DE PRECIPITACIÓN TOTAL EN ESPAÑA 
+![img20](./img/ej3/RE6.png)
+
+#### TASA DE VARIACIÓN ANUAL DE PRECIPITACIÓN
+![img21](./img/ej3/RE7.png)
+
+#### RESUMEN ESTADÍSTICO CSV
+
+
 
 ## Ejercicio 4 - Publicar los Datos
 
-Publicar los datos generados por la aplicación, en formato web en una URL pública. La web debe tener una URL pública.
-La web debe estar bien estructurada:
-- Archivos HTML y CSS separados
-- Recursos, como por ejemplo las imágenes, en directorio aparte.
-  
-La web debe mostrar:
-- Resúmenes estadísticos
-- Gráficos estadísticos
+### Publicación de los Datos  
 
+En este apartado, hemos desarrollado una web que presenta los datos generados por la aplicación en un **URL público**, permitiendo su consulta de manera sencilla e intuitiva.  
 
+#### Contenido de la Web  
+📌 **Resúmenes estadísticos** de las precipitaciones analizadas.  
+📌 **Gráficos representativos** para visualizar tendencias y patrones.  
+
+#### Estructura de la Web  
+✅ Archivos **HTML y CSS** separados.  
+✅ Recursos como **imágenes y datos** organizados en directorios específicos.  
+
+🔗 **Accede a la web aquí:** [https://alejandroarbos-itb2425.github.io/TA06-Grup5/E04/index.html]
 
 ## Ejercicio 5 - Reflexión y Conclusión del Proyecto 
+
