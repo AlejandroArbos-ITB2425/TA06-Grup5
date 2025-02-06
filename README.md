@@ -116,6 +116,21 @@ _TOTAL ANUAL:_
 
 Se podría incluir algunas estadísticas como: el promedio de precipitación por mes, promedio de precipitaciones por estación del año (primavera, verano, otoño,invierno) o los años con precipitación mayor a un umbral específico. 
 
+
+Procesos realizados en cada etapa del trabajo:
+
+1. Obtención de datos 
+
+Lo primero que hicimos fue acceder a la plataforma oficial de la AEMET mediante una API Key donde pudimos encontrar y decargar un archivo comprimido que contenia los datos meteorológicos del año 2006-2100; el archivo (precip.MIROC5.RCP60.2006-2100.SDSM_REJ.tar.gz). Al descomprimir la carpeta, obtuvimos 16.064 archivos .dat, cada archivo, era una estación diferente de la AEMET, es decir, había 16.064 estaciones que recogian información de las precipitaciones desde los años 2006-2100.
+
+2.  Organizar y procesar los datos
+Realizamos una análisis del archivo .dat para poder entender la estructura, los tipos de datos que hay y obtenemos estas conclusiones:
+· Los datos estaban organizados en columnas separadas por tabulaciones.
+· Identificador de la estación (P1, P2, etc.).
+· Año y mes de los datos (2006 1, 2006 2, 2006 3, etc.).
+· Valores de precipitación para cada día del mes, expresados en décimas de milímetro.
+· Valores faltantes: -999, los cuales indican datos no disponibles.
+
 ## Ejercicio 3 - Generar Resultados
 
 - Mostrar resúmenes estadísticos por pantalla
