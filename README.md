@@ -131,6 +131,9 @@ Realizamos una análisis del archivo .dat para poder entender la estructura, los
 - Valores de precipitación para cada día del mes, expresados en décimas de milímetro.
 - Valores faltantes: -999, los cuales indican datos no disponibles.
 
+3. Hicimos un script que leía los archivos y determinaba el número de columnas, filas, delimitadores, valores nulos y cantidad de datos procesados.
+4.  
+
 ## Ejercicio 3 - Generar Resultados
 
 > - Mostrar resúmenes estadísticos por pantalla
