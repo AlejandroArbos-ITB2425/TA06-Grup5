@@ -188,13 +188,13 @@ En este apartado, hemos desarrollado una web que presenta los datos generados po
 
 En este proyecto hemos trabajado con diferentes lenguajes de programación y tipos de archivos. En la primera fase, recopilamos los datos oficiales de la AEMET sobre todos los días en los que ha llovido y la cantidad de litros por metro cuadrado desde el año 2006 hasta 2100.
 
-Uno de los principales desafíos fue el manejo de una gran cantidad de archivos, en concreto, más de 16.000. Esto complicó el desarrollo, ya que ejecutar un programa para contar los archivos y calcular promedios implicaba un tiempo de procesamiento elevado. 
+Uno de los principales desafíos fue el manejo de una gran cantidad de archivos, en concreto, 16.064. Esto complicó el desarrollo, ya que ejecutar un programa para contar los archivos y calcular promedios implicaba un tiempo de procesamiento elevado. 
 
 En el Ejercicio 2, donde se nos pedía organizar y procesar estos datos, optimizamos el código reduciendo el número de archivos en nuestras pruebas iniciales. Tras verificar que el programa funcionaba correctamente con un subconjunto de datos, procedimos a ejecutarlo con el total de archivos, logrando finalmente un procesamiento eficiente.
 
-En el Ejercicio 3, generamos gráficos representativos de los datos obtenidos. Uno de los mayores retos fue desarrollar un código que, además de calcular los valores requeridos para los gráficos, generará automáticamente archivos CSV con la información procesada.
+En el Ejercicio 3, generamos gráficos representativos de los datos obtenidos. Uno de los mayores retos fue desarrollar un código que, además de calcular los valores requeridos para los gráficos, debía de generar automáticamente un archivo CSV con la información procesada.
 
-Finalmente, en el ejercicio 4, creamos una página web utilizando HTML y CSS para publicar los datos y los análisis obtenidos. La web incluye diferentes secciones: una presentación del equipo, un área de descarga con los archivos de datos generados, y un apartado con gráficos y estadísticas basadas en la información extraída de la AEMET.
+Finalmente, en el ejercicio 4, creamos una página web utilizando HTML, CSS y JavaScript para publicar los datos y los resultados obtenidos. La web incluye diferentes secciones: una presentación del equipo, un área de descarga con los archivos de datos generados, y un apartado con gráficos y estadísticas basadas en la información extraída de la AEMET.
 
 Gracias a este proyecto, hemos adquirido experiencia en la gestión y análisis de grandes volúmenes de datos, así como en la optimización de código y la publicación de información en un entorno web.
 
