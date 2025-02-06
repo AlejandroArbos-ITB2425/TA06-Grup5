@@ -61,7 +61,7 @@ def calculate_annual_precipitation(input_dir):
     plt.plot(years, annual_totals, marker='o', color='b', label='Media Anual')
     plt.title("Media Anual de Precipitación")
     plt.xlabel("Año")
-    plt.ylabel("Precipitación Anual Normalizada (mm)")
+    plt.ylabel("Precipitación Media (mm)")
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
