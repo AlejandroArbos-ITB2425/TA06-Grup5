@@ -193,3 +193,10 @@ En el Ejercicio 3, generamos gráficos representativos de los datos obtenidos. U
 Finalmente, en el ejercicio 4, creamos una página web utilizando HTML y CSS para publicar los datos y los análisis obtenidos. La web incluye diferentes secciones: una presentación del equipo, un área de descarga con los archivos de datos generados, y un apartado con gráficos y estadísticas basadas en la información extraída de la AEMET.
 
 Gracias a este proyecto, hemos adquirido experiencia en la gestión y análisis de grandes volúmenes de datos, así como en la optimización de código y la publicación de información en un entorno web.
+
+#### REGISTRE D'APRENENTATGE
+
+![img22](./img/ej5/RA1.png)
+![img23](./img/ej5/RA2.png)
+![img24](./img/ej5/RA3.png)
+![img25](./img/ej5/RA4.png)
