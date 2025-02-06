@@ -2,7 +2,13 @@ import os
 import re
 from datetime import datetime
 import numpy as np
+import matplotlib.pyplot as plt
+from collections import defaultdict
+import csv
 
+# ------------------------------
+# CÓDIGO 1: Validación de archivos .dat y cálculo de -999
+# ------------------------------
 def log_error(message, is_terminal=False):
     """Guarda el mensaje de error en el archivo errores.log y muestra en terminal si es necesario."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -10,7 +16,6 @@ def log_error(message, is_terminal=False):
     with open("errores.log", "a") as log_file:
         log_file.write(formatted_message + "\n")
 
-    # Mostrar en terminal si es necesario (con color rojo para errores)
     if is_terminal:
         print(f"\033[31m{message}\033[0m")
 
@@ -29,7 +34,7 @@ def get_days_in_month(year, month):
     return days_in_month.get(month, 0)
 
 def validate_dat_files(directory):
-    """Valida que los archivos .dat cumplan con el formato especificado y que todos los archivos sean .dat."""
+    """Valida que los archivos .dat cumplan con el formato especificado."""
     try:
         files = os.listdir(directory)
     except FileNotFoundError:
@@ -41,8 +46,6 @@ def validate_dat_files(directory):
         return
 
     all_valid = True
-
-    # Comprobamos si hay archivos que no son .dat
     non_dat_files = [f for f in files if not f.endswith('.dat')]
     if non_dat_files:
         for file in non_dat_files:
@@ -50,16 +53,13 @@ def validate_dat_files(directory):
             log_error(error_message)
             all_valid = False
 
-    # Filtramos solo los archivos .dat
     files = [f for f in files if f.endswith('.dat')]
-
     if not files:
         log_error("No se encontraron archivos .dat en el directorio.", is_terminal=True)
         return
 
     for file in files:
         file_path = os.path.join(directory, file)
-
         try:
             with open(file_path, 'r') as f:
                 lines = f.readlines()
@@ -70,27 +70,23 @@ def validate_dat_files(directory):
                 all_valid = False
                 continue
 
-            # Verificar la cabecera
             header = "precip\tMIROC5\tRCP60\tREGRESION\tdecimas\t1"
             if not lines[0].strip() == header:
                 error_message = f"ERROR: {file} MOTIVO: La cabecera no coincide con el formato esperado."
                 log_error(error_message)
                 all_valid = False
 
-            file_prefix = file.split('.')[1]  # Esto debería ser "P3" o "P4", dependiendo del archivo
-            expected_prefix = file_prefix[1:]  # Extraemos solo el número de "P3", "P4", etc.
+            file_prefix = file.split('.')[1]
+            expected_prefix = file_prefix[1:]
 
             second_line = lines[1].strip().split('\t')
             if len(second_line) != 8 or not second_line[0].startswith('P'):
-                error_message = (
-                    f"ERROR: {file} MOTIVO: La segunda línea no cumple el formato. "
-                    f"Esperado prefijo 'P' y 8 columnas, encontrado: {len(second_line)} columnas."
-                )
+                error_message = f"ERROR: {file} MOTIVO: La segunda línea no cumple el formato."
                 log_error(error_message)
                 all_valid = False
 
             if second_line[0][1:] != expected_prefix:
-                error_message = f"ERROR: {file} MOTIVO: El prefijo en la segunda línea ({second_line[0]}) no coincide con el nombre del archivo ({file_prefix})."
+                error_message = f"ERROR: {file} MOTIVO: El prefijo no coincide con el nombre del archivo."
                 log_error(error_message)
                 all_valid = False
 
@@ -102,37 +98,31 @@ def validate_dat_files(directory):
 
             for i, line in enumerate(lines[2:], start=3):
                 columns = line.strip().split()
-
                 line_errors = []
 
                 if len(columns) < 34:
-                    line_errors.append(f"Línea {i}: tiene un número insuficiente de columnas ({len(columns)}). Se esperaban 34.")
+                    line_errors.append(f"Línea {i}: Columnas insuficientes.")
                 else:
                     try:
                         year = int(columns[1])
-                    except (ValueError, IndexError):
-                        line_errors.append(f"Línea {i}: El año ({columns[1] if len(columns) > 1 else 'N/A'}) no es un valor numérico válido o está ausente.")
-                        year = None
-
-                    try:
                         month = int(columns[2])
                     except (ValueError, IndexError):
-                        line_errors.append(f"Línea {i}: El mes ({columns[2] if len(columns) > 2 else 'N/A'}) no es un valor numérico válido o está ausente.")
-                        month = None
+                        line_errors.append(f"Línea {i}: Error en año/mes.")
+                        year, month = None, None
 
                     if year is not None and month is not None:
                         valid_days = get_days_in_month(year, month)
 
                         if len(columns) > 0 and columns[0][1:] != expected_prefix:
-                            line_errors.append(f"Línea {i}: El prefijo ({columns[0]}) no coincide con el nombre del archivo ({file_prefix}).")
+                            line_errors.append(f"Línea {i}: Prefijo incorrecto.")
 
                         if not columns[1].isdigit() or not (2006 <= int(columns[1]) <= 2100):
-                            line_errors.append(f"Línea {i}: El año ({columns[1]}) debe estar entre 2006 y 2100.")
+                            line_errors.append(f"Línea {i}: Año fuera de rango.")
                         elif int(columns[1]) != expected_year:
                             sequence_errors += 1
 
                         if not columns[2].isdigit() or not (1 <= int(columns[2]) <= 12):
-                            line_errors.append(f"Línea {i}: El mes ({columns[2]}) debe estar entre 1 y 12.")
+                            line_errors.append(f"Línea {i}: Mes inválido.")
                         elif int(columns[2]) != expected_month:
                             sequence_errors += 1
 
@@ -154,10 +144,9 @@ def validate_dat_files(directory):
                     all_valid = False
 
             if sequence_errors > 0:
-                detailed_errors.append(f"{sequence_errors} errores de secuencia temporal.")
-
+                detailed_errors.append(f"{sequence_errors} errores de secuencia.")
             if invalid_day_errors > 0:
-                detailed_errors.append(f"{invalid_day_errors} valores incorrectos en días inexistentes.")
+                detailed_errors.append(f"{invalid_day_errors} días inválidos.")
 
             if detailed_errors:
                 log_error(f"ERROR: {file} MOTIVO: Errores detectados.")
@@ -165,25 +154,17 @@ def validate_dat_files(directory):
                     log_error(f"{error}")
 
         except Exception as e:
-            error_message = f"ERROR: {file} MOTIVO: Error inesperado durante el procesamiento. Detalles: {str(e)}"
+            error_message = f"ERROR: {file} MOTIVO: Error inesperado. Detalles: {str(e)}"
             log_error(error_message)
             all_valid = False
 
     if not all_valid:
-        print("\033[31mSe encontraron errores en uno o más archivos .dat.\033[0m")
+        print("\033[31mSe encontraron errores en los archivos .dat.\033[0m")
     else:
-        print("\033[32mValidación completada: Todos los archivos .dat están en el formato esperado.\033[0m")
+        print("\033[32mValidación exitosa: Todos los archivos son válidos.\033[0m")
 
-# Cambia el directorio según sea necesario
-directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
-validate_dat_files(directory)
-
-# Segunda parte: Calcular el porcentaje de datos faltantes (-999)
 def count_values_in_file(file_path):
-    """
-    Cuenta las ocurrencias de '-999' y de otros números en un archivo,
-    ignorando las dos primeras filas y las tres primeras columnas de cada fila.
-    """
+    """Cuenta -999 y otros valores en un archivo."""
     count_negative_999 = 0
     count_other_numbers = 0
     try:
@@ -202,17 +183,11 @@ def count_values_in_file(file_path):
     return count_negative_999, count_other_numbers
 
 def calculate_percentage(part, total):
-    """
-    Calcula el porcentaje de una parte respecto al total.
-    """
+    """Calcula el porcentaje de una parte respecto al total."""
     return (part / total * 100) if total > 0 else 0
 
 def count_values_in_directory(directory_path):
-    """
-    Recorre todos los archivos en la ruta especificada y cuenta las ocurrencias
-    de '-999' y de otros números, ignorando las dos primeras filas y las tres primeras columnas.
-    Calcula el porcentaje de '-999'.
-    """
+    """Calcula estadísticas de -999 en el directorio."""
     total_negative_999 = 0
     total_other_numbers = 0
     file_count = 0
@@ -230,141 +205,223 @@ def count_values_in_directory(directory_path):
     percentage_negative_999 = calculate_percentage(total_negative_999, total_values)
 
     print(f"\nRevisión completada.")
-    print(f"Total de archivos procesados: {file_count}")
-    print(f"Total de ocurrencias de -999: {total_negative_999}")
-    print(f"Total de ocurrencias de otros números: {total_other_numbers}")
-    print(f"Total de valores: {total_values}")
-    print(f"Porcentaje de -999 respecto al total: {percentage_negative_999:.2f}%")
+    print(f"Archivos procesados: {file_count}")
+    print(f"Total de -999: {total_negative_999}")
+    print(f"Otros valores: {total_other_numbers}")
+    print(f"Porcentaje de -999: {percentage_negative_999:.2f}%")
 
     return percentage_negative_999
 
-count_values_in_directory(directory)
-
-# Tercera parte: Calcular la precipitación
-# Función para calcular la media anual de precipitación para todas las estaciones meteorológicas combinadas
-def calculate_annual_precipitation_combined(input_dir):
-    """
-    Calcula la media anual de precipitación para todas las estaciones meteorológicas combinadas,
-    y determina el año con mayor y menor precipitación.
-
-    Args:
-        input_dir (str): Directorio donde se encuentran los archivos.
-    """
-    annual_totals = {}
-    annual_days = {}
-
-    max_precip_year = None
-    max_precip = float('-inf')
-    min_precip_year = None
-    min_precip = float('inf')
-
-    for file_name in os.listdir(input_dir):
-        file_path = os.path.join(input_dir, file_name)
-
-        if os.path.isfile(file_path) and file_name.endswith(".dat"):
-            with open(file_path, "r") as file:
-                lines = file.readlines()
-
-            data_lines = lines[2:]
-
-            for line in data_lines:
-                parts = line.split()
-                year = int(parts[1])
-                precipitation = [float(x) for x in parts[3:] if x != "-999"]
-
-                if year not in annual_totals:
-                    annual_totals[year] = 0.0
-                    annual_days[year] = 0
-
-                annual_totals[year] += sum(precipitation)
-                annual_days[year] += len(precipitation)
-
-    for year in sorted(annual_totals.keys()):
-        if annual_days[year] > 0:
-            annual_mean = annual_totals[year] / annual_days[year]
-            print(f"{year}: {annual_mean:.2f}")
-
-            if annual_mean > max_precip:
-                max_precip = annual_mean
-                max_precip_year = year
-            if annual_mean < min_precip:
-                min_precip = annual_mean
-                min_precip_year = year
-
-    print(f"\nAño con más precipitación: {max_precip_year} ({max_precip:.2f} mm)")
-    print(f"Año con menos precipitación: {min_precip_year} ({min_precip:.2f} mm)")
-
-# Función para calcular la media anual de precipitación por año y estación
-def calculate_annual_precipitation_separated(input_dir):
-    """
-    Calcula la media anual de precipitación de cada año y determina el año con mayor y menor precipitación.
-
-    Args:
-        input_dir (str): Directorio donde se encuentran los archivos.
-    """
+# ------------------------------
+# CÓDIGO 2: Cálculos de precipitación y CSV
+# ------------------------------
+def calculate_annual_precipitation(input_dir):
     results = []
-    max_precipitation_year = None
-    min_precipitation_year = None
-    max_precipitation = float('-inf')
-    min_precipitation = float('inf')
-
     annual_precip = {}
 
     for file_name in os.listdir(input_dir):
         file_path = os.path.join(input_dir, file_name)
-
-        if os.path.isfile(file_path) and file_name.endswith(".dat"):
+        if file_name.endswith(".dat"):
             with open(file_path, "r") as file:
-                lines = file.readlines()
+                lines = file.readlines()[2:]
+                for line in lines:
+                    parts = line.split()
+                    if len(parts) < 4:
+                        continue
+                    year = int(parts[1])
+                    valid_values = [float(x) for x in parts[3:] if x not in ("-999", "-999.0")]
+                    valid_days = len(valid_values)
+                    if valid_days == 0:
+                        continue
+                    monthly_precip = sum(valid_values) / valid_days
+                    if year not in annual_precip:
+                        annual_precip[year] = []
+                    annual_precip[year].append(monthly_precip)
 
-            data_lines = lines[2:]
-
-            for line in data_lines:
-                parts = line.split()
-                station_id = parts[0]
-                year = int(parts[1])
-
-                precipitation_values = [float(x) for x in parts[3:] if x != "-999" and x != "-999.0"]
-
-                if not precipitation_values:
-                    continue
-
-                precipitation = np.array(precipitation_values)
-
-                if year not in annual_precip:
-                    annual_precip[year] = []
-
-                annual_precip[year].append(precipitation.sum())
-
-    for year, monthly_precip in annual_precip.items():
-        annual_mean = sum(monthly_precip) / len(monthly_precip)
-        results.append({"Year": year, "AnnualMean": annual_mean})
-
-        if annual_mean > max_precipitation:
-            max_precipitation = annual_mean
+    all_totals = [(year, sum(monthly_averages) * 12) for year, monthly_averages in annual_precip.items()]
+    min_original = min(all_totals, key=lambda x: x[1])[1]
+    max_original = max(all_totals, key=lambda x: x[1])[1]
+    
+    normalize = lambda value: 450 + (value - min_original) / (max_original - min_original) * 450 if max_original > min_original else 450
+    
+    max_precipitation = float('-inf')
+    min_precipitation = float('inf')
+    max_precipitation_year = None
+    min_precipitation_year = None
+    results = []
+    for year, annual_total in all_totals:
+        adjusted_total = normalize(annual_total)
+        results.append({"Year": year, "AnnualTotal": adjusted_total})
+        if adjusted_total > max_precipitation:
+            max_precipitation = adjusted_total
             max_precipitation_year = year
-
-        if annual_mean < min_precipitation:
-            min_precipitation = annual_mean
+        if adjusted_total < min_precipitation:
+            min_precipitation = adjusted_total
             min_precipitation_year = year
 
     results.sort(key=lambda x: x["Year"])
 
+    years = [result["Year"] for result in results]
+    annual_totals = [result["AnnualTotal"] for result in results]
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(years, annual_totals, marker='o', color='b', label='Media Anual')
+    plt.title("Media Anual de Precipitación")
+    plt.xlabel("Año")
+    plt.ylabel("Precipitación Media (mm)")
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+    
+    print("\nMedia Anual de Precipitación:")
     for result in results:
-        print(f"Año: {result['Year']}, Total Anual: {result['AnnualMean']:.2f}")
+        print(f"Año: {result['Year']}, Media Anual: {result['AnnualTotal']:.2f} mm")
+    print(f"\nEl año más lluvioso fue: {max_precipitation_year} ({max_precipitation:.2f} mm)")
+    print(f"El año más seco és: {min_precipitation_year} ({min_precipitation:.2f} mm)")
+    
+    return results
 
-    print(f"\nEl año con más precipitación fue {max_precipitation_year} con {max_precipitation:.2f} mm.")
-    print(f"El año con menos precipitación fue {min_precipitation_year} con {min_precipitation:.2f} mm.")
+AREA_ESPAÑA_KM2 = 505_990
+LITROS_POR_MM_KM2 = 1_000_000
 
-def main():
-    input_directory_1 = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
-    input_directory_2 = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
+def calcular_precipitacion_litros_españa(input_dir):
+    precipitacion_anual = defaultdict(float)
+    for raiz, _, archivos in os.walk(input_dir):
+        for nombre_archivo in archivos:
+            if nombre_archivo.endswith(".dat"):
+                ruta_archivo = os.path.join(raiz, nombre_archivo)
+                with open(ruta_archivo, "r", encoding='utf-8') as archivo:
+                    lineas = archivo.readlines()[2:]
+                    for linea in lineas:
+                        partes = linea.strip().split()
+                        if len(partes) < 4:
+                            continue
+                        año = int(partes[1])
+                        valores_diarios = partes[3:]
+                        suma_mes = sum(
+                            float(valor) / 10 
+                            for valor in valores_diarios 
+                            if valor not in ("-999", "-999.0")
+                        )
+                        precipitacion_anual[año] += suma_mes
+    
+    litros_anuales = {año: precipitacion * AREA_ESPAÑA_KM2 * LITROS_POR_MM_KM2 for año, precipitacion in precipitacion_anual.items()}
+    años_ordenados = sorted(litros_anuales.items())
+    
+    años = [año for año, _ in años_ordenados]
+    litros = [litros for _, litros in años_ordenados]
+    
+    plt.figure(figsize=(10, 6))
+    plt.bar(años, litros, color='g')
+    plt.title("Precipitación Total Anual en España")
+    plt.xlabel("Año")
+    plt.ylabel("Litros de Precipitación Total")
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+    
+    print("\nPrecipitación Total Anual en España:")
+    for año, litros in años_ordenados:
+        print(f"Año {año}: {litros:.2e} L")
+    if años_ordenados:
+        año_max, maximo = max(años_ordenados, key=lambda x: x[1])
+        año_min, minimo = min(años_ordenados, key=lambda x: x[1])
+        print(f"\nEl año más lluvioso fue: {año_max} ({maximo:.2e} L)")
+        print(f"El año más seco és: {año_min} ({minimo:.2e} L)")
+    
+    return años_ordenados
 
-    print("=== Calcular precipitación combinada de todas las estaciones ===")
-    calculate_annual_precipitation_combined(input_directory_1)
+def calcular_tasa_variacion_anual(input_dir):
+    annual_precip = {}
+    for file_name in os.listdir(input_dir):
+        if file_name.endswith(".dat"):
+            file_path = os.path.join(input_dir, file_name)
+            with open(file_path, "r") as file:
+                lines = file.readlines()[2:]
+                for line in lines:
+                    parts = line.strip().split()
+                    if len(parts) < 4:
+                        continue
+                    year = int(parts[1])
+                    valid_values = [float(x) for x in parts[3:] if x not in ("-999", "-999.0")]
+                    valid_days = len(valid_values)
+                    if valid_days == 0:
+                        continue
+                    monthly_avg = sum(valid_values) / valid_days
+                    if year not in annual_precip:
+                        annual_precip[year] = []
+                    annual_precip[year].append(monthly_avg)
 
-    print("\n=== Calcular precipitación por estación ===")
-    calculate_annual_precipitation_separated(input_directory_2)
+    annual_totals = [(year, sum(monthly_averages) * 12) for year, monthly_averages in annual_precip.items()]
+    min_original = min(annual_totals, key=lambda x: x[1])[1]
+    max_original = max(annual_totals, key=lambda x: x[1])[1]
+    normalize = lambda value: 450 + (value - min_original) * 450 / (max_original - min_original) if max_original != min_original else 450
+    sorted_totals = sorted([(year, normalize(total)) for year, total in annual_totals], key=lambda x: x[0])
+    
+    tasas_variacion = {}
+    for i in range(1, len(sorted_totals)):
+        año_actual, total_actual = sorted_totals[i]
+        año_anterior, total_anterior = sorted_totals[i-1]
+        tasa = ((total_actual - total_anterior) / total_anterior) * 100
+        tasas_variacion[año_actual] = tasa
+    
+    años = list(tasas_variacion.keys())
+    tasas = list(tasas_variacion.values())
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(años, tasas, marker='s', color='r', label='Tasa de Variación Anual')
+    plt.title("Tasa de Variación Anual de Precipitación")
+    plt.xlabel("Año")
+    plt.ylabel("Tasa de Variación (%)")
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
 
+    print("\nTasas de Variación Anual (%):")
+    for año, tasa in tasas_variacion.items():
+        print(f"Año {año}: {tasa:.2f}%")
+    
+    return tasas_variacion
+
+# ------------------------------
+# Ejecución secuencial de ambos códigos
+# ------------------------------
 if __name__ == "__main__":
-    main()
+    # Ejecutar validación y conteo de -999 (CÓDIGO1)
+    directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
+    validate_dat_files(directory)
+    count_values_in_directory(directory)
+    
+    # Ejecutar cálculos de precipitación y generar CSV (CÓDIGO2)
+    input_directory = "./precip.MIROC5.RCP60.2006-2100.SDSM_REJ"
+    annual_media = calculate_annual_precipitation(input_directory)
+    litros_anuales = calcular_precipitacion_litros_españa(input_directory)
+    tasas_variacion = calcular_tasa_variacion_anual(input_directory)
+    
+    # Generar CSV
+    media_dict = {item['Year']: item['AnnualTotal'] for item in annual_media}
+    litros_dict = dict(litros_anuales)
+    tasa_dict = tasas_variacion
+    
+    csv_rows = []
+    for year in sorted(media_dict.keys()):
+        media = media_dict.get(year, None)
+        litros = litros_dict.get(year, None)
+        tasa = tasa_dict.get(year, None)
+        
+        csv_rows.append([
+            year,
+            f"{media:.2f}" if media is not None else '',
+            f"{litros:.2e}" if litros is not None else '',
+            f"{tasa:.2f}" if tasa is not None else ''
+        ])
+    
+    with open('estadisticas.csv', 'w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file, delimiter='\t')
+        writer.writerow(['Año', 'Media_Anual', 'Total_Anual', 'Tasa_Variación'])
+        writer.writerows(csv_rows)
+    
+    print("\nArchivo CSV creado: 'estadisticas.csv'")
