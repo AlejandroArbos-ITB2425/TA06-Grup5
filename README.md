@@ -162,8 +162,7 @@ Realizamos una análisis del archivo .dat para poder entender la estructura, los
 ![img21](./img/ej3/RE7.png)
 
 #### RESUMEN ESTADÍSTICO CSV
-
-
+![img21](./img/ej3/csv.png)
 
 ## Ejercicio 4 - Publicar los Datos
 
