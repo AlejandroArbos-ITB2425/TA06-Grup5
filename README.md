@@ -64,7 +64,7 @@ Gestionar valores que faltan o corruptos: Identifica y trata datos nulos o valor
 ![img7](./img/ej2/img_ej2_errores.png)
 
 Se ha hecho algunas pruebas, por ejemplo: 
-- columnas y filas
+- eEl número de columnas y filas
 - Introducir fechas incorrectas. (El año sólo puede ser des del 2006-2100, un año sólo puede tener 12 meses ...)
 - Introducir valores no numéricos donde no toca
 
